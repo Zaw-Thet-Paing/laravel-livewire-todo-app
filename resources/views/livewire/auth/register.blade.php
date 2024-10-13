@@ -1,4 +1,4 @@
-<div>
+<div x-data="{ showPassword: false }">
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-3"></div>
@@ -25,7 +25,12 @@
                             </div>
                             <div class="mb-3">
                                 <label for="">Password</label>
-                                <input type="password" class="form-control @error('password') is-invalid @enderror" wire:model="password">
+                                <div class="input-group">
+                                    <input :type="showPassword ? 'text' : 'password'" class="form-control @error('password') is-invalid @enderror" wire:model="password">
+                                    <span class="input-group-text" @click="showPassword = !showPassword">
+                                        <i :class="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'"></i>
+                                    </span>
+                                </div>
                                 @error('password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror

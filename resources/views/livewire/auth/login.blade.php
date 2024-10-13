@@ -1,4 +1,4 @@
-<div>
+<div x-data="{ showPassword: false }">
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-3"></div>
@@ -8,7 +8,7 @@
                         <h1 class="text-center">Login Page</h1>
                     </div>
                     <div class="card-body">
-                        <form wire:submit="user_login">
+                        <form wire:submit.prevent="user_login">
                             <div class="mb-3">
                                 <label for="">Email</label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror" wire:model="email">
@@ -18,7 +18,12 @@
                             </div>
                             <div class="mb-3">
                                 <label for="">Password</label>
-                                <input type="password" class="form-control @error('email') is-invalid @enderror" wire:model="password">
+                                <div class="input-group">
+                                    <input :type="showPassword ? 'text' : 'password'" class="form-control @error('password') is-invalid @enderror" wire:model="password">
+                                    <span class="input-group-text" @click="showPassword = !showPassword">
+                                        <i :class="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'"></i>
+                                    </span>
+                                </div>
                                 @error('password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -26,7 +31,7 @@
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-success w-100">
                                     Login
-                                    <div wire:loading class="spinner-border spinner-border-sm" role="status">
+                                    <div wire:loading wire:target="user_login" class="spinner-border spinner-border-sm" role="status">
                                     </div>
                                 </button>
                             </div>

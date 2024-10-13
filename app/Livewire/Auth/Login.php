@@ -15,6 +15,13 @@ class Login extends Component
     #[Validate('required|string')]
     public $password = '';
 
+    // public $showPassword = false;
+
+    // public function togglePassword()
+    // {
+    //     $this->showPassword = !$this->showPassword;
+    // }
+
     public function user_login()
     {
         $this->validate();
