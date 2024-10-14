@@ -1,4 +1,4 @@
-<div x-data="{ showPassword: false }">
+<div>
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-3"></div>
@@ -18,11 +18,13 @@
                             </div>
                             <div class="mb-3">
                                 <label for="">Password</label>
-                                <div class="input-group">
-                                    <input :type="showPassword ? 'text' : 'password'" class="form-control @error('password') is-invalid @enderror" wire:model="password">
-                                    <span class="input-group-text" @click="showPassword = !showPassword">
-                                        <i :class="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'"></i>
-                                    </span>
+                                <div x-data="{ showPassword: false }">
+                                    <div class="input-group">
+                                        <input :type="showPassword ? 'text' : 'password'" class="form-control @error('password') is-invalid @enderror" wire:model="password">
+                                        <span class="input-group-text" @click="showPassword = !showPassword">
+                                            <i :class="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'"></i>
+                                        </span>
+                                    </div>
                                 </div>
                                 @error('password')
                                     <span class="text-danger">{{ $message }}</span>
@@ -31,7 +33,7 @@
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-success w-100">
                                     Login
-                                    <div wire:loading wire:target="user_login" class="spinner-border spinner-border-sm" role="status">
+                                    <div wire:loading class="spinner-border spinner-border-sm" role="status">
                                     </div>
                                 </button>
                             </div>

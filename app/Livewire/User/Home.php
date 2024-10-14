@@ -12,7 +12,10 @@ class Home extends Component
     {
         Auth::logout();
 
-        $this->redirect(route('login'), navigate:true);
+        // Force full redirect after successful login
+        return redirect()->intended(route('login'));
+
+        // $this->redirect(route('login'), navigate:true);
     }
 
     public function render()

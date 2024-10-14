@@ -29,7 +29,12 @@ class Login extends Component
         if(!Auth::attempt(['email'=> $this->email, 'password'=> $this->password])){
             $this->addError('email', 'The provided credentials do not match our records');
         }else{
-            $this->redirect(route('user.home'), navigate:true);
+            // dd("user login");
+            // session()->flash('livewire:redirect', route('user.home'));
+            // $this->redirect(route('user.home'), navigate:true);
+
+            // // Force full redirect after successful login
+            return redirect()->intended(route('user.home'));
         }
     }
 
