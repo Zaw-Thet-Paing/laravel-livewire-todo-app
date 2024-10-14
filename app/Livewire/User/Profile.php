@@ -3,14 +3,10 @@
 namespace App\Livewire\User;
 
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-class Home extends Component
+class Profile extends Component
 {
-
-    #[Validate('required|string')]
-    public $name = '';
 
     public function logout()
     {
@@ -22,16 +18,8 @@ class Home extends Component
         // $this->redirect(route('login'), navigate:true);
     }
 
-    public function save()
-    {
-        $this->validate();
-
-
-
-    }
-
     public function render()
     {
-        return view('livewire.user.home');
+        return view('livewire.user.profile');
     }
 }
