@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -10,7 +11,14 @@ class Home extends Component
 {
 
     #[Validate('required|string')]
-    public $name = '';
+    public $name;
+
+    public $tasks = [];
+
+    public function mount()
+    {
+        $this->tasks = Task::where('user_id', Auth::user()->id)->get();
+    }
 
     public function logout()
     {
@@ -26,8 +34,22 @@ class Home extends Component
     {
         $this->validate();
 
+        Task::create([
+            'user_id'=> Auth::user()->id,
+            'name'=> $this->name
+        ]);
 
+        $this->name = '';
 
+        $this->tasks = Task::where('user_id', Auth::user()->id)->get();
+
+    }
+
+    public function deleteTask($id)
+    {
+        $task = Task::findOrFail($id);
+        $task->delete();
+        $this->tasks = Task::where('user_id', Auth::user()->id)->get();
     }
 
     public function render()

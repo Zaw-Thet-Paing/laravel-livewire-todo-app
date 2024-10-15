@@ -31,9 +31,9 @@ class Register extends Component
 
         Auth::login($user);
 
-        // $this->redirect(route('user.home'), navigate:true);
+        $this->redirect(route('user.home'), navigate:true);
         // // Force full redirect after successful login
-        return redirect()->intended(route('user.home'));
+        // return redirect()->intended(route('user.home'));
 
     }
 
