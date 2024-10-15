@@ -78,9 +78,30 @@
                                     </div>
                                 </div>
 
-                                <span style="cursor: pointer" wire:click="deleteTask({{ $task->id }})">
+                                <span style="cursor: pointer" wire:click="deleteModal({{ $task->id }})">
+                                {{-- <span style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#deleteModal"> --}}
                                     <i class="fa-solid fa-trash"></i>
                                 </span>
+
+                                <!-- Delete Modal -->
+                                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure?</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body d-flex justify-content-end">
+                                                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">No</button>
+                                                <button type="button" class="btn btn-danger" wire:click="deleteTask">
+                                                    Yes
+                                                    <div class="spinner-border spinner-border-sm" wire:loading wire:target="deleteTask" role="status">
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -97,8 +118,19 @@
         modal.show();
     });
 
-    window.addEventListener('close-modal', event => {
+    window.addEventListener('hide-edit-modal', event => {
         var modal = document.getElementById('editModal');
+        var modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+    });
+
+    window.addEventListener('show-delete-modal', event => {
+        var modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        modal.show();
+    });
+
+    window.addEventListener('hide-delete-modal', event => {
+        var modal = document.getElementById('deleteModal');
         var modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide();
     });

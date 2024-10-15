@@ -9,15 +9,14 @@ use Livewire\Component;
 
 class Home extends Component
 {
-
-    #[Validate('required|string')]
     public $name;
 
     public $tasks = [];
 
-    #[Validate('required|string')]
     public $editName = '';
+
     public $editId;
+    public $deleteId;
 
     public function mount()
     {
@@ -36,7 +35,9 @@ class Home extends Component
 
     public function save()
     {
-        $this->validate();
+        $this->validate([
+            'name'=> 'required|string'
+        ]);
 
         Task::create([
             'user_id'=> Auth::user()->id,
@@ -59,19 +60,33 @@ class Home extends Component
 
     public function updateTask()
     {
+
+        $this->validate([
+            'editName'=> 'required|string'
+        ]);
+
         $task = Task::find($this->editId);
         $task->update(['name'=> $this->editName]);
 
         $this->reset('editName', 'editId');
         $this->tasks = Task::where('user_id', Auth::user()->id)->get();
-        $this->dispatch('close-modal');
+        $this->dispatch('hide-edit-modal');
     }
 
-    public function deleteTask($id)
+    public function deleteModal($id)
     {
-        $task = Task::findOrFail($id);
+        $this->deleteId = $id;
+
+        $this->dispatch('show-delete-modal');
+    }
+
+    public function deleteTask()
+    {
+        $task = Task::findOrFail($this->deleteId);
         $task->delete();
         $this->tasks = Task::where('user_id', Auth::user()->id)->get();
+
+        $this->dispatch('hide-delete-modal');
     }
 
     public function render()
