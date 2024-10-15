@@ -15,6 +15,10 @@ class Home extends Component
 
     public $tasks = [];
 
+    #[Validate('required|string')]
+    public $editName = '';
+    public $editId;
+
     public function mount()
     {
         $this->tasks = Task::where('user_id', Auth::user()->id)->get();
@@ -43,6 +47,24 @@ class Home extends Component
 
         $this->tasks = Task::where('user_id', Auth::user()->id)->get();
 
+    }
+
+    public function editTask($id)
+    {
+        $this->editId = $id;
+        $this->editName = Task::find($id)->name;
+
+        $this->dispatch('show-edit-modal');
+    }
+
+    public function updateTask()
+    {
+        $task = Task::find($this->editId);
+        $task->update(['name'=> $this->editName]);
+
+        $this->reset('editName', 'editId');
+        $this->tasks = Task::where('user_id', Auth::user()->id)->get();
+        $this->dispatch('close-modal');
     }
 
     public function deleteTask($id)
