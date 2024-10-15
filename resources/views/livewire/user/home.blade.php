@@ -39,8 +39,13 @@
                     @foreach ($tasks as $task)
                         <div class="border border-dark-subtle px-3 py-2 rounded mb-2 d-flex justify-content-between">
                             <div class="d-flex">
-                                <input type="checkbox" class="form-check-input me-2">
-                                <span>{{ $task->name }}</span>
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input me-2"
+                                    {{ $task->status ? 'checked' : '' }}
+                                    wire:click="toggleTaskComplete({{ $task->id }})"
+                                />
+                                <span class="{{ $task->status ? 'text-decoration-line-through' : '' }}">{{ $task->name }}</span>
                             </div>
                             <div>
                                 <span class="me-2" wire:click="editTask({{ $task->id }})" style="cursor: pointer" >

@@ -89,6 +89,16 @@ class Home extends Component
         $this->dispatch('hide-delete-modal');
     }
 
+    public function toggleTaskComplete($id)
+    {
+        $task = Task::find($id);
+        $task->update([
+            'status'=> !$task->status
+        ]);
+
+        $this->tasks = Task::where('user_id', Auth::user()->id)->get();
+    }
+
     public function render()
     {
         return view('livewire.user.home');
